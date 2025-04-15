@@ -47,27 +47,4 @@ class User extends CI_Controller
         $data['results'] = $this->Vote_model->get_vote_count();
         $this->load->view('user/result', $data);
     }
-
-    public function get_chart_data()
-    {
-        $results = $this->db->query("
-        SELECT nama_kandidat, COUNT(*) AS total
-        FROM votes
-        JOIN candidates ON votes.kandidat_id = candidates.id
-        GROUP BY kandidat_id
-    ")->result();
-
-        $labels = [];
-        $data = [];
-
-        foreach ($results as $r) {
-            $labels[] = $r->nama_kandidat;
-            $data[] = (int)$r->total;
-        }
-
-        echo json_encode([
-            'labels' => $labels,
-            'data' => $data
-        ]);
-    }
 }
